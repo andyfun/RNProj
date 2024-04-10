@@ -1,0 +1,9 @@
+{"code":0,
+  "data":[
+    {"id":1,"name":"Zoom Earth","img":"./assets/games/zoom-earth.jpg","url":"https://zoom.earch","desc":"View weather maps and track hurricanes in real-time."},
+    {"id":2,"name":"Webcam Toy","img":"./assets/games/webcam-toy.jpg","url":"https://webcamtoy.com","desc":"Take selfies with over 80 fun effects."},
+    {"id":3,"name":"Strobe Illusion","img":"./assets/games/strobe-illusion.png","url":"https://strobe.cool","desc":"You will hallucinate! Watch this mind-melting optical illusion.."},
+    {"id":4,"name":"Snake","img":"./assets/games/snake.png","url":"https://playsnake.org","desc":"Play the classic retro mobile phone game."}
+  ]}
+ 
+  

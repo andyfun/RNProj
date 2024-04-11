@@ -1,47 +1,49 @@
 import { StatusBar } from 'expo-status-bar';
-import { StyleSheet, Text, TouchableNativeFeedbackComponent, View ,Image} from 'react-native';
-import { Button } from 'react-native-web';
+import { StyleSheet, Text, TouchableNativeFeedbackComponent, View} from 'react-native';
+import { Button,FlatList,Image } from 'react-native-web';
 import { createDrawerNavigator } from '@react-navigation/drawer';
 import {NavigationContainer} from '@react-navigation/native';
 import { useEffect, useState } from 'react';
 const Drawer = createDrawerNavigator();
 
-const jsonAssetsPath = ('./assets/games/data.json');
-//JSON.stringify(jsonData)
-function useAssetJson(){
-   const[jsonData,setJsonData] = useState("");
-   useEffect(()=>{
-       async function getJsonData(){
-          const response = await fetch(jsonAssetsPath);
-          const json = await response.json();
-          setJsonData(JSON.stringify(json));
-       }
-       getJsonData();
-  },[]);
-  return jsonData;
+const jsonAssetsPath = './assets/games/data.json';
+
+
+const mapPng ={
+  "snake.png":require('./assets/games/snake.png'),
+  "zoom-earth.jpg":require('./assets/games/zoom-earth.jpg'),
+  "webcam-toy.jpg":require('./assets/games/webcam-toy.jpg'),
+  "strobe-illusion.png":require('./assets/games/strobe-illusion.png'),
 }
 
 function GirlsLike() {
-  const jsonData2 = useAssetJson();
-  console.log( (jsonData2));
-  JSON.parse(JSON.stringify(jsonData2),(key,value)=>{
-    console.log(key,value);
-  });
+  const[jsonData,setJsonData] = useState(null);
+   useEffect(()=>{
+       async function readLocalData(){
+          const response = await fetch(jsonAssetsPath);
+          const json = await response.json();
+          console.log("use eff------1111------->"+json);
+          setJsonData(json.data);
+       }
+       readLocalData();
+  },[]);
+  const renderItem = ({item})=>(
+    <View  style={styles.item}>
+        <Image source={mapPng[item.img]} style={styles.image}   />
+        <Button title={item.name} style={styles.button} onPress={()=>{
+          window.open(item.url);
+         } }/>
+    </View>
+  );
   return (
     <View style={styles.container}>
-      <View>
-        <FileList 
+     <FlatList 
+          numColumns={2}
           data={jsonData} 
-          renderItem={({item})=>(
-            <View style={styles.image}>
-                <Image source={require('./assets/games/snake.png')}  />
-                <Button title="Click me" />
-            </View>
-          )
-      }
+          renderItem={renderItem}
+          keyExtractor={item=>item.id}
+          
         />
-         
-      </View>
        
     </View>
   );
@@ -61,7 +63,7 @@ function CarsDriver() {
 function App() {
   return (
     <NavigationContainer>
-        <Drawer.Navigator >
+        <Drawer.Navigator  initialRouteName="Grils">
           <Drawer.Screen name="Grils" component={GirlsLike} />
           <Drawer.Screen name="CarsDriver" component={CarsDriver} />
         </Drawer.Navigator>
@@ -72,21 +74,27 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: '#fff',
-    alignItems: 'center',
-    justifyContent: 'center',
   },
-  containerSearch: {
-    flex: 1,
-    backgroundColor: '#fff',
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
+  
   image: {
-    flex: 1,
+   
     resizeMode: "cover",
     justifyContent: "center",
+    width: 200,
+    height: 200,
+   
+  },
+  button:{
     width: 100,
-    height: 100,
+    height: 50,
+    marginTop: 10,
+  },
+  item: {
+    padding: 10,
+    borderBottomWidth: 1,
+    borderColor: '#ccc',
+    width: '50%',
+    height: '50%',
   },
 });
 

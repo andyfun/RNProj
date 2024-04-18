@@ -1,43 +1,35 @@
 import { StatusBar } from 'expo-status-bar';
-import { StyleSheet, Text, View, Dimensions} from 'react-native';
-import { Button,FlatList,Image, TouchableHighlight } from 'react-native-web';
+import { StyleSheet, Text, View, Dimensions,Button,FlatList,Image, TouchableHighlight, Platform, Linking} from 'react-native';
 import { createDrawerNavigator } from '@react-navigation/drawer';
 import {NavigationContainer} from '@react-navigation/native';
 import { useEffect, useState } from 'react';
 const Drawer = createDrawerNavigator();
 
-const jsonAssetsPath = './assets/games/data.json';
-
-
-const mapPng ={
-  "snake.png":require('./assets/games/snake.png'),
-  "zoom-earth.jpg":require('./assets/games/zoom-earth.jpg'),
-  "webcam-toy.jpg":require('./assets/games/webcam-toy.jpg'),
-  "strobe-illusion.png":require('./assets/games/strobe-illusion.png'),
-  "hexxagon.png":require('./assets/games/hexxagon.png'),
-
-}
-
 function GirlsLike() {
   const[jsonData,setJsonData] = useState(null);
    useEffect(()=>{
        async function readLocalData(){
-          const response = await fetch(jsonAssetsPath);
+          const response = await fetch("https://2345games.top/publicRes/games/data.json");
           const json = await response.json();
-          console.log("use eff------1111------->"+json);
+          console.log(JSON.stringify(json.data));
           setJsonData(json.data);
        }
        readLocalData();
   },[]);
   const renderItem = ({item})=>(
     <TouchableHighlight onPress={()=>{
-      window.open(item.url);
+      if(Platform.OS=='android' || Platform.OS=='ios'){
+      //  Linking.openURL(item.url);
+        
+      }
+      Linking.openURL(item.url);
+      //window.open(item.url);
     }}
-    underlayColor={'rgba(255,255,255,0.5)'}
-    style={styles.item}
+      underlayColor={'rgba(255,255,255,0.5)'}
+      style={styles.item}
     >
     <Image
-            source={mapPng[item.img]} 
+            source={{uri:item.img}} 
             style={styles.image}
             resizeMethod="resize"
         />
@@ -82,13 +74,15 @@ const styles = StyleSheet.create({
     flex: 1,
     backgroundColor: '#fff',
     flexWrap: 'wrap',
+    marginStart:Platform.OS === 'android'|| Platform.OS === 'ios'? 0:200,
+    marginEnd:Platform.OS === 'android'|| Platform.OS === 'ios'? 0:200,
   },
   
   image: {
     resizeMode: "cover",
     justifyContent: "center",
-    width: 200,
-    height: 200,
+    width: 100,
+    height: 100,
     borderRadius: 20,
    
   },

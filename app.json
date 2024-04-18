@@ -1,23 +1,23 @@
 {
   "expo": {
-    "name": "RNProj",
-    "slug": "RNProj",
+    "name": "2345games",
+    "slug": "2345games",
     "version": "1.0.0",
     "orientation": "portrait",
     "icon": "./assets/icon.png",
-  
     "userInterfaceStyle": "light",
     "splash": {
       "image": "./assets/splash.png",
       "resizeMode": "contain",
       "backgroundColor": "#ffffff"
     },
-
     "assetBundlePatterns": [
-      "**/*"
+      "**/*",
+      "assets/games/**.json"
     ],
     "ios": {
-      "supportsTablet": true
+      "supportsTablet": true,
+      "bundleIdentifier": "com.anonymous.RNProj"
     },
     "android": {
       "adaptiveIcon": {

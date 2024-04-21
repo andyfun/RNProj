@@ -6,14 +6,17 @@ import {NavigationContainer} from '@react-navigation/native';
 import { useEffect, useState } from 'react';
 const Drawer = createDrawerNavigator();
 
+//todo gif
+//数据
+
 function GirlsLike() {
   const[jsonData,setJsonData] = useState(null);
    useEffect(()=>{
        async function readLocalData(){
           const response = await fetch("https://2345games.top/publicRes/games/data.json");
           const json = await response.json();
-          console.log(JSON.stringify(json.data));
-          setJsonData(json.data);
+          console.log(JSON.stringify(json.data.girls));
+          setJsonData(json.data.girls);
        }
        readLocalData();
   },[]);

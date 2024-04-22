@@ -32,14 +32,14 @@ function GirlsLike() {
       underlayColor={'rgba(255,255,255,0.5)'}
       style={styles.item}
     >
-    <Image
+     <Image
             source={{uri:item.img}} 
             style={styles.image}
             resizeMethod="resize"
         />
     </TouchableHighlight>
   );
-  console.log("use eff------2222------->"+currentMargin.marginStart);
+ 
   console.log("use eff------3333------->"+Platform.OS);
   return (
     <View style={styles.container}>

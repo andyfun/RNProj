@@ -8,13 +8,14 @@ const Drawer = createDrawerNavigator();
 
 //todo gif
 //数据
-
+let globalData = null;
 function GirlsLike() {
   const[jsonData,setJsonData] = useState(null);
    useEffect(()=>{
        async function readLocalData(){
           const response = await fetch("https://2345games.top/publicRes/games/data.json");
           const json = await response.json();
+          globalData = json;
           console.log(JSON.stringify(json.data.girls));
           setJsonData(json.data.girls);
        }
@@ -54,12 +55,35 @@ function GirlsLike() {
   );
 }
 
-function CarsDriver() {
+function Classical() {
+  console.log(globalData)
+  const renderItem = ({item})=>(
+    <TouchableHighlight onPress={()=>{
+      if(Platform.OS=='android' || Platform.OS=='ios'){
+      //  Linking.openURL(item.url);
+        
+      }
+      Linking.openURL(item.url);
+     
+    }}
+      underlayColor={'rgba(255,255,255,0.5)'}
+      style={styles.item}
+    >
+     <Image
+            source={{uri:item.img}} 
+            style={styles.image}
+            resizeMethod="resize"
+        />
+    </TouchableHighlight>
+  );
   return (
     <View style={styles.container}>
-      <View>
-          <Button title="Driver" />
-      </View>
+     <FlatList 
+          data={globalData.data.others} 
+          renderItem={renderItem}
+          keyExtractor={item=>item.id}
+          contentContainerStyle={styles.listViewStyle}
+        />
        
     </View>
   );
@@ -79,7 +103,7 @@ function App() {
     <NavigationContainer>
         <Drawer.Navigator  initialRouteName="Grils">
           <Drawer.Screen name="女生专属" component={GirlsLike} />
-          <Drawer.Screen name="赛车" component={CarsDriver} />
+          <Drawer.Screen name="经典" component={Classical} />
           <Drawer.Screen name="国战" component={ZhengtuDriver} />
         </Drawer.Navigator>
     </NavigationContainer>
